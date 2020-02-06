@@ -4,43 +4,20 @@ var onClickTimeStamp = false;
 var startTimeStamp = 0;
 var endTimeStamp = 0;
 var reactionTime = 1;
-var volume = 100
+var volume = 100;
 
-document.onkeydown = function (e) {
+
+// function keep running to check if shortcut is ON/OFF
+var checkViewport = setInterval(function() {
+	if (shortcutBool) {
+        // console.log(shortcutBool);
+
+        document.onkeydown = function (e) {
+        	// console.log('presing key');
 
     // "space" key on press to create time stamps
     if (e.keyCode == 32) {
-    	var currTime = vid.currentTime;
-
-    	if (onClickTimeStamp) {
-    		endTimeStamp = currTime;
-    		onClickTimeStamp = false;
-    		document.getElementById('timeStampEndList').innerHTML += ('<li>'+ endTimeStamp +'</li>');
-
-    		var tempKey = uniqueHash(randomGenerator(32), key);
-
-    		key.push(tempKey);
-
-    		tempData[tempKey] = ["TimeStamp", startTimeStamp, endTimeStamp];
-
-    		window.localStorage.setItem("data", JSON.stringify(tempData));
-
-    		document.getElementById("downloadLink").innerHTML = "";
-
-    		var blob = new Blob([window.localStorage.getItem("data")], {type: "application/json"});
-    		var url  = URL.createObjectURL(blob);
-    		var a = document.createElement('a');
-
-    		a.download    = "Time_Stamp.json";
-    		a.href        = url;
-    		a.textContent = "Time_Stamp";
-
-    		document.getElementById('downloadLink').appendChild(a);
-    	} else {
-    		startTimeStamp = currTime - reactionTime;
-    		onClickTimeStamp = true;
-    		document.getElementById('timeStampStartList').innerHTML += ('<li>'+ startTimeStamp +'</li>');
-    	}    
+    	createTimeStamp();
     }
 
 	// "Arrow Right" key on press to fast forward
@@ -121,20 +98,31 @@ document.onkeydown = function (e) {
 
 // prevent "Space" key to scroll webpage
 window.addEventListener('keydown', function(e) {
-  if(e.keyCode == 32 && e.target == document.body) {
-    e.preventDefault();
-  }
+	e.preventDefault()
 });
+
+
+} else {
+        // console.log(shortcutBool);
+        
+        // when shortcut is off, stop all the key shortcut
+        document.onkeydown = function (e) {
+        	e.stopPropagation();
+        }
+        
+    }
+}, 1);
+
 
 // generate random string
 function randomGenerator(length) {
-   var result           = '';
-   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-   var charactersLength = characters.length;
-   for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   }
-   return result;
+	var result           = '';
+	var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	var charactersLength = characters.length;
+	for ( var i = 0; i < length; i++ ) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	return result;
 }
 
 // generate unique hash from random string
@@ -150,4 +138,97 @@ function uniqueHash(result, key) {
 		}	
 	}
 	return result;
+}
+
+
+// create time stamp
+function createTimeStamp(){
+	var currTime = vid.currentTime;
+
+	if (onClickTimeStamp) {
+		endTimeStamp = currTime;
+		onClickTimeStamp = false;
+		document.getElementById('timeStampEndList').innerHTML += ('<li>'+ endTimeStamp +'</li>');
+
+		var tempKey = uniqueHash(randomGenerator(32), key);
+		key.push(tempKey);
+
+		tempData[tempKey] = ["TimeStamp", startTimeStamp, endTimeStamp];
+
+		// store the tempData in "data" locally
+		window.localStorage.setItem("data", JSON.stringify(tempData));
+
+		// create download link for JSON file
+		document.getElementById("downloadLink").innerHTML = "";
+
+		var blob = new Blob([window.localStorage.getItem("data")], {type: "application/json"});
+		var url  = URL.createObjectURL(blob);
+		var a = document.createElement('a');
+
+		a.download    = "Time_Stamp.json";
+		a.href        = url;
+		a.textContent = "Time_Stamp";
+
+		document.getElementById('downloadLink').appendChild(a);
+	} else {
+		// reduce time stamp start time by reaction time
+		startTimeStamp = currTime - reactionTime;
+
+		if (startTimeStamp < 0) {
+			startTimeStamp = 0;
+		}
+
+		onClickTimeStamp = true;
+		document.getElementById('timeStampStartList').innerHTML += ('<li>'+ startTimeStamp +'</li>');
+	}    
+}
+
+
+// delete time stamp in JSON file
+function deleteTimeStamp() {
+	var timeStampNumber = document.getElementById("deleteTime").value;
+
+	if (timeStampNumber != 0) {
+		var deleteKey = key[timeStampNumber-1]
+
+		// delete JSON element by key
+		var json = JSON.parse(localStorage["data"]);
+		delete json[deleteKey]
+		localStorage["data"] = JSON.stringify(json);
+
+		delete tempData[deleteKey]
+
+		// remove key array element
+		key.remove(deleteKey)
+
+		// remove <li> from <ol>
+		var olStartElem = document.getElementById('timeStampStartList');
+		olStartElem.removeChild(olStartElem.childNodes[timeStampNumber-1])
+
+		var olEndElem = document.getElementById('timeStampEndList');
+		olEndElem.removeChild(olEndElem.childNodes[timeStampNumber-1])
+
+		// recreate the download link
+		document.getElementById("downloadLink").innerHTML = "";
+
+		var blob = new Blob([window.localStorage.getItem("data")], {type: "application/json"});
+		var url  = URL.createObjectURL(blob);
+		var a = document.createElement('a');
+
+		a.download    = "Time_Stamp.json";
+		a.href        = url;
+		a.textContent = "Time_Stamp";
+
+		document.getElementById('downloadLink').appendChild(a);
+	}
+}
+
+
+// helper function to remove array by element
+Array.prototype.remove = function(data) {
+	const index = this.indexOf(data)
+	if(index >= 0) {
+		this.splice(index ,1);
+	}
+	return this.length;
 }

@@ -11,6 +11,7 @@ function doFirst(){
 	document.getElementById("videoLengthTime").innerHTML = "00:00:00"
 }
 
+// play and pause button clicked
 function playOrPause() {
 	document.getElementById("videoCurrentTime").innerHTML = new Date(vid.currentTime * 1000).toISOString().substr(11, 8) +  " / ";
 
@@ -25,6 +26,7 @@ function playOrPause() {
 	}
 }
 
+// update progress bar
 function update() {
 	document.getElementById("videoCurrentTime").innerHTML = new Date(vid.currentTime * 1000).toISOString().substr(11, 8) +  " / ";
 
@@ -38,6 +40,7 @@ function update() {
 	}
 }
 
+// when progress bar is clicked
 function clickedBar(e){
 	if(!vid.ended){
 		var mouseX=e.pageX-bar.offsetLeft;

@@ -1,3 +1,4 @@
+// function to load video file from local
 (function localFileVideoPlayer() {
 	'use strict'
 	var URL = window.URL || window.webkitURL
@@ -30,6 +31,7 @@
 vid = document.getElementById("uploadedVideo")
 
 
+// function keeps running to check if video is loaded
 checkforVideo();
 
 function checkforVideo() {

@@ -1,0 +1,192 @@
+<head>
+	<link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+	<!-- video file -->
+	<nav>
+		<div id=videoTimeStampContainer>
+			<div id="videoContainer">
+				<div id="fileUploadContainer">
+					<input type="file" accept="video/*">
+					<div id="message"></div>
+				</div>
+				<div id="shortcutEnable"> OFF </div>
+				<script src="scripts/shortcutListener.js"></script>
+
+				<br>
+				<video id="uploadedVideo" onkeydown="return false"></video>
+				<script src="scripts/upload.js"></script>
+
+				<nav>
+					<div id="buttons">
+						<button type="button" id="playButton">Play</button>
+					</div>
+					<div id="defaultBar">
+						<div id="progressBar"></div>
+					</div>
+					<div id="videoCurrentTime"></div>
+					<div id="videoLengthTime"></div>
+				</nav>
+				<script src="scripts/progressBar.js"></script>
+
+				<br>
+				<nav>	
+					<button type="button" id="backwardButton" onclick="backwardVideo()"> <<< </button>
+					<button type="button" id="forwardButton" onclick="forwardVideo()"> >>> </button>
+					<button type="button" id="recordTimeStamp" onclick="createTimeStamp()"> Record Time Stamp </button>		
+				</nav>
+			</div>
+
+			<!-- video time stamps -->
+			<div id="timestampContainer">
+				<table border: 1px solid black;> 
+					<tr>
+						<th colspan="2">Time Stamps Events</th>
+					</tr>
+					<tr>
+						<td>Download</td>
+						<td colspan="2" id="downloadLink"></td>
+					</tr>
+					<tr>
+						<td valign="top"><ol id="timeStampStartList"></ol></td>
+						<td valign="top"><ol id="timeStampEndList" style="list-style-type:none;"></ol></td>
+					</tr>
+				</table>
+
+				<script src="scripts/eventListener.js"></script>
+			</div>
+		</div>
+	</nav>
+
+	<div id="settingsContainer">
+		<!-- playback speed -->
+		<nav>
+			<div id="playbackSlider">
+				<label for="slider">Playback</label>
+				<input type="range" min="0.5" max="16.0" step=".25" value="1" id="slider" oninput="setVideoSliderValue(value)" onchange="setVideoSpeed(value)">
+				<output for="slider" id="playbackrate">1.0</output>x
+			</div>
+			<div id="playbackButtons">
+				<table>
+					<tr>
+						<td>
+							<button onclick="setVideoSpeedByValue(0.5)" type="button">0.5x</button>
+							<button onclick="setVideoSpeedByValue(1)" type="button">1x</button>
+							<button onclick="setVideoSpeedByValue(2)" type="button">2x</button>
+							<button onclick="setVideoSpeedByValue(4)" type="button">4x</button>
+							<button onclick="setVideoSpeedByValue(8)" type="button">8x</button>
+							<button onclick="setVideoSpeedByValue(16)" type="button">16x</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</nav>
+		<script src="scripts/playback.js"></script>
+
+		<!-- volume -->
+		<br>
+		<nav>
+			<div id="volumeSlider">
+				<label for="volumeSlider">Volume</label>
+				<input type="range" min="0" max="100.0" step="1" value="100" id="vSlider" oninput="setVolumeSliderValue(value)" onchange="setVolume(value)">
+				<output for="volumeSlider" id="volume">100</output>
+			</div>
+			<div id="volumeButtons">
+				<table>
+					<tr>
+						<td>
+							<button onclick="setVolumeByValue(0)" type="button">Mute</button>
+							<button onclick="setVolumeByValue(0.2)" type="button">20</button>
+							<button onclick="setVolumeByValue(0.4)" type="button">40</button>
+							<button onclick="setVolumeByValue(0.6)" type="button">60</button>
+							<button onclick="setVolumeByValue(0.8)" type="button">80</button>
+							<button onclick="setVolumeByValue(1)" type="button">100</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</nav>
+		<script src="scripts/volume.js"></script>
+
+		<!-- set video -->
+		<br>
+		<nav>
+			<div id="reactionTimeContainer">
+				<button onclick="setReactionTime()" type="button" style="width:200px">Set Reaction Time (Seconds)</button>
+				<input type="text" id="reactionInput" value="1">
+			</div>
+			<div id="setTimeContainer">
+				<button onclick="setCurrTime()" type="button" style="width:200px">Set Time Position (HH:MM:SS)</button>
+				<input type="text" id="currInput" value="00:00:00">
+			</div>
+			<div id="setTimeContainer2">
+				<button onclick="setCurrTimeBySec()" type="button" style="width:200px">Set Time Position (Seconds)</button>
+				<input type="text" id="currInput2" value="0">
+			</div>
+			<div id="deleteTimeContainer">
+				<button onclick="deleteTimeStamp()" type="button" style="width:200px">Delete Time Stamp (#)</button>
+				<input type="text" id="deleteTime" value="0">
+			</div>
+		</nav>
+		<script src="scripts/setButtons.js"></script>
+	</div>
+
+
+	<!-- PIP -->
+	<button id="pipButton">Toggle Picture in Picture</button>
+	<script>
+	// Hide button if Picture-in-Picture is not supported.
+	pipButton.hidden = !document.pictureInPictureEnabled;
+
+	pipButton.addEventListener('click', function() {
+	  // If there is no element in Picture-in-Picture yet, let's request Picture
+	  // In Picture for the video, otherwise leave it.
+	  if (!document.pictureInPictureElement) {
+	  	vid.requestPictureInPicture()
+	  	.catch(error => {
+	      // Video failed to enter Picture-in-Picture mode.
+	  });
+	  } else {
+	  	document.exitPictureInPicture()
+	  	.catch(error => {
+	      // Video failed to leave Picture-in-Picture mode.
+	  });
+	  }
+	});
+</script>
+
+
+<!-- shortcut description -->
+<h2> Video Player Guide: </h2>
+<ol> <h3>Basic Functions:</h3>
+	<li>Upload video by clicking "Choose File" button</li>
+	<li>Play/Pause video by clicking "Play / Pause" button</li>
+	<li>Forward/Backward video by clicking ">>> / <<<" button</li>
+	<li>Set Playback speed by moving the silder or clicking the playback buttons</li>
+	<li>Set Audio volume by moving the silder or clicking the volume buttons</li>
+	<li>Change video position by clicking the progress bar <i>(next to "play" button)</i></li>
+</ol>
+<ol> <h3>Extra Features: </h3>
+	<li>Create Time Stamps of the video by clicking "Record Time Stamp" button</li>
+	<li>Download Time Stamps file <i>.JSON</i> by clicking the <u>"Time_Stamp"</u> link next to Download</li>
+	<li>Delete Time Stamps by clicking "Delete Time Stamp (#)", input the number of the Time Stamp (e.g. 1) 
+	<li>Configure reaction time when creating time stamp in "Set Reaction Time",
+		provide input in second. For example, 1 second means <b>start time</b> stamp is
+	reduced by 1 second</li>
+	<li>Set video position in "Set Time Position (HH:MM:SS)",
+	provide input in HH:MM:SS format; or "Set Time Position (Seconds)", provide input in seconds</li>
+	<li>Picture in Picture setting by clicking "Toggle Picture in Picture" button</li>
+</ol>
+<ol> <h3>Shortcut Keys:</h3>
+	<li><b><u>To use shortcut keys, hover your mouse to the "OFF" Red Box,
+	it will enable the shorcut keys when it turns "ON" Green</b></u></li> 
+	<li><b>Space</b> : Create Start/End Time Stamp</li>
+	<li><b>Enter</b> : Play/Pause Video</li>
+	<li><b>Right Arrow</b> : Forward Video</li>
+	<li><b>Left Arrow</b> : Backward Video</li>
+	<li><b>1,2,3,4,5,6</b> : Set playback rate (1 = 0.5x, 6 = 16x)</li>
+	<li><b>+/-</b> : Increase/Decrease volume</li>
+	<li><b>Q</b> : FullScreen  Esc: Exit FullScreen</li>
+</ol>
+</body>

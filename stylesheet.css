@@ -13,13 +13,13 @@ video {
 }
 #videoTimeStampContainer{
 	width: 1200px;
-	height: 550px;
+	height: 560px;
 	border: 2px solid black	;
 }
 #videoContainer{
 	width: auto;
 	height: auto;
-  	float: left;
+	float: left;
 }
 #timestampContainer{
 	float:right;
@@ -30,6 +30,17 @@ video {
 #uploadedVideo {
 	width: 890px;
 	height: 460px;
+}
+#shortcutEnable {
+	float:right;
+	width:50px;
+	height: 40px;
+	border: 2px solid black;
+	background: #ff3300;
+	text-align: center;
+}
+#fileUploadContainer {
+	float:left;
 }
 #buttons {
 	float:left;
@@ -56,17 +67,26 @@ video {
 #videoLengthTime{
 	float:left;
 }
+#forwardButton{
+	float:left;
+}
+#backwardButton{
+	float:left;
+}
+#recordTimeStamp{
+	float:right;
+}
 #settingsContainer{
 	width:1200px;
 	border:2px solid black;
-	height: 100px;
+	height: 110px;
 }
 #slider{
 	width:350px;
 }
 #playbackSlider{
 	width: 500px;
-  	float: left;
+	float: left;
 }
 #playbackButtons{
 	float: left;
@@ -76,17 +96,24 @@ video {
 }
 #volumeSlider{
 	width: 500px;
-  	float: left;
+	float: left;
 }
 #volumeButtons{
 	float: left;
 }
 #reactionTimeContainer{
 	width: 500px;
-  	float: left;
+	float: left;
 }
 #setTimeContainer{
 	float: left;
+}
+#setTimeContainer2{
+	width: 500px;
+	float: left;
+}
+#deleteTimeContainer{
+	float:left;
 }
 #downloadLink{
 	float:left;

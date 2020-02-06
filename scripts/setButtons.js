@@ -18,7 +18,44 @@ function setCurrTime() {
 	update()
 } 
 
+// set video current time by seconds
+function setCurrTimeBySec() {
+	var inputTime = document.getElementById("currInput2").value
+
+	vid.currentTime = parseFloat(inputTime);
+
+	// update progress bar
+	update()
+} 
+
+function setCurrTimeByValue(seconds) {
+	alert(parseFloat(seconds))
+
+	vid.currentTime = parseFloat(seconds);
+
+	// update progress bar
+	update()
+} 
+
 // set reaction time
 function setReactionTime(){
 	reactionTime = document.getElementById("reactionInput").value
+}
+
+// fast forward video
+function forwardVideo(){
+	var curr = vid.currentTime;
+	vid.currentTime = curr + (1*document.querySelector('#playbackrate').value)
+
+	// update progress bar
+	update()
+}
+
+// backward video
+function backwardVideo(){
+	var curr = vid.currentTime;
+	vid.currentTime = curr - (1*document.querySelector('#playbackrate').value)
+
+	// update progress bar
+	update()
 }
