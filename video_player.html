@@ -1,0 +1,154 @@
+<head>
+	<link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+<!-- video file -->
+<nav>
+	<div id=videoTimeStampContainer>
+		<div id="videoContainer">
+			<input type="file" accept="video/*">
+			<div id="message"></div>
+			<br>
+			<video id="uploadedVideo" onkeydown="return false"></video>
+			<script src="scripts/upload.js"></script>
+
+			<nav>
+				<div id="buttons">
+					<button type="button" id="playButton">Play</button>
+				</div>
+				<div id="defaultBar">
+					<div id="progressBar"></div>
+				</div>
+				<div id="videoCurrentTime"></div>
+				<div id="videoLengthTime"></div>
+			</nav>
+			<script src="scripts/progressBar.js"></script>
+		</div>
+
+<!-- video time stamps -->
+		<div id="timestampContainer">
+			<table border: 1px solid black;> 
+					<tr>
+						<th colspan="2">Time Stamps Events</th>
+					</tr>
+					<tr>
+						<td>Download</td>
+						<td colspan="2" id="downloadLink"></td>
+					</tr>
+					<tr>
+						<td valign="top"><ol id="timeStampStartList"></ol></td>
+						<td valign="top"><ol id="timeStampEndList" style="list-style-type:none;"></ol></td>
+					</tr>
+			</table>
+			
+			<script src="scripts/eventListener.js"></script>
+		</div>
+	</div>
+</nav>
+
+<div id="settingsContainer">
+	<!-- playback speed -->
+	<nav>
+		<div id="playbackSlider">
+			<label for="slider">Playback</label>
+			<input type="range" min="0.5" max="16.0" step=".25" value="1" id="slider" oninput="setVideoSliderValue(value)" onchange="setVideoSpeed(value)">
+			<output for="slider" id="playbackrate">1.0</output>x
+		</div>
+		<div id="playbackButtons">
+		<table>
+		<tr>
+			<td>
+				<button onclick="setVideoSpeedByValue(0.5)" type="button">0.5x</button>
+				<button onclick="setVideoSpeedByValue(1)" type="button">1x</button>
+				<button onclick="setVideoSpeedByValue(2)" type="button">2x</button>
+				<button onclick="setVideoSpeedByValue(4)" type="button">4x</button>
+				<button onclick="setVideoSpeedByValue(8)" type="button">8x</button>
+				<button onclick="setVideoSpeedByValue(16)" type="button">16x</button>
+			</td>
+		</tr>
+	</table>
+		</div>
+	</nav>
+	<script src="scripts/playback.js"></script>
+
+	<!-- volume -->
+	<br>
+	<nav>
+		<div id="volumeSlider">
+			<label for="volumeSlider">Volume</label>
+			<input type="range" min="0" max="100.0" step="1" value="100" id="vSlider" oninput="setVolumeSliderValue(value)" onchange="setVolume(value)">
+			<output for="volumeSlider" id="volume">100</output>
+		</div>
+		<div id="volumeButtons">
+		<table>
+		<tr>
+			<td>
+				<button onclick="setVolumeByValue(0)" type="button">Mute</button>
+				<button onclick="setVolumeByValue(0.2)" type="button">20</button>
+				<button onclick="setVolumeByValue(0.4)" type="button">40</button>
+				<button onclick="setVolumeByValue(0.6)" type="button">60</button>
+				<button onclick="setVolumeByValue(0.8)" type="button">80</button>
+				<button onclick="setVolumeByValue(1)" type="button">100</button>
+			</td>
+		</tr>
+	</table>
+		</div>
+	</nav>
+	<script src="scripts/volume.js"></script>
+
+	<!-- set video -->
+	<br>
+	<nav>
+		<div id="reactionTimeContainer">
+			<button onclick="setReactionTime()" type="button" style="width:200px">Set reaction time (seconds)</button>
+			<input type="text" id="reactionInput" value="1">
+		</div>
+		<div id="setTimeContainer">
+			<button onclick="setCurrTime()" type="button" style="width:200px">Set Time Position (HH:MM:SS)</button>
+			<input type="text" id="currInput" value="00:00:00">
+		</div>
+	</nav>
+	<script src="scripts/setButtons.js"></script>
+</div>
+
+
+<!-- PIP -->
+<button id="pipButton">Toggle Picture in Picture</button>
+<script>
+	// Hide button if Picture-in-Picture is not supported.
+	pipButton.hidden = !document.pictureInPictureEnabled;
+
+	pipButton.addEventListener('click', function() {
+	  // If there is no element in Picture-in-Picture yet, let's request Picture
+	  // In Picture for the video, otherwise leave it.
+	  if (!document.pictureInPictureElement) {
+	    vid.requestPictureInPicture()
+	    .catch(error => {
+	      // Video failed to enter Picture-in-Picture mode.
+	    });
+	  } else {
+	    document.exitPictureInPicture()
+	    .catch(error => {
+	      // Video failed to leave Picture-in-Picture mode.
+	    });
+	  }
+	});
+</script>
+
+<!-- shortcut description -->
+<p> Shortcuts </p>
+<ul>
+	<li>Space: Create Start/End Time Stamp</li>
+	<li>Enter: Play/Pause Video</li>
+	<li>Right Arrow: Forward Video</li>
+	<li>Left Arrow: Backward Video</li>
+	<li>1,2,3,4,5,6: Set playback rate (1 = 0.5x, 6 = 16x)</li>
+	<li>+/-: Increase/Decrease volume</li>
+	<li>Q: FullScreen  Esc: Exit FullScreen</li>
+	<li>Get Current Time: Get the video current time</li>
+	<li>Set Current Time: Set video current time</li>
+	<li>Set Reaction Time: Change the start time stamp based on reaction time input,<br>
+	example 1 second means start time stamp is reduced by 1 second</li>
+</ul>
+</body>

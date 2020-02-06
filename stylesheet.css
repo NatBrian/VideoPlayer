@@ -1,0 +1,93 @@
+body {
+	height:100%;
+}
+header,section,footer,aside,nav,article,hgroup {
+	display: block;
+}
+nav {
+	margin: 5px 0px;
+}
+video {
+	width: 900px;
+	height: 460px;
+}
+#videoTimeStampContainer{
+	width: 1200px;
+	height: 550px;
+	border: 2px solid black	;
+}
+#videoContainer{
+	width: auto;
+	height: auto;
+  	float: left;
+}
+#timestampContainer{
+	float:right;
+	width: 300px;
+	height: 520px;
+	overflow: scroll;
+}
+#uploadedVideo {
+	width: 890px;
+	height: 460px;
+}
+#buttons {
+	float:left;
+	width:50px;
+	height:10px;
+}
+#defaultBar {
+	position:relative;
+	float:left;
+	width:700px;
+	height:10px;
+	padding:4px;
+	border: 2px solid black;
+}
+#progressBar {
+	width:0px;
+	height:10px;
+	background:black;
+}
+#videoCurrentTime {
+	padding-right: 3px;
+	float:left;
+}
+#videoLengthTime{
+	float:left;
+}
+#settingsContainer{
+	width:1200px;
+	border:2px solid black;
+	height: 100px;
+}
+#slider{
+	width:350px;
+}
+#playbackSlider{
+	width: 500px;
+  	float: left;
+}
+#playbackButtons{
+	float: left;
+}
+#vslider{
+	width:350px;
+}
+#volumeSlider{
+	width: 500px;
+  	float: left;
+}
+#volumeButtons{
+	float: left;
+}
+#reactionTimeContainer{
+	width: 500px;
+  	float: left;
+}
+#setTimeContainer{
+	float: left;
+}
+#downloadLink{
+	float:left;
+}
