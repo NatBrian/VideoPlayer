@@ -148,7 +148,7 @@ function createTimeStamp(){
 	if (onClickTimeStamp) {
 		endTimeStamp = parseFloat(currTime.toFixed(3));
 		onClickTimeStamp = false;
-		document.getElementById('timeStampEndList').innerHTML += ('<li id=end_'+counterTest+'><a href="javascript:onclick(setCurrTimeByValue(' + endTimeStamp + '))"> V</a>' + endTimeStamp + '</li>');
+		document.getElementById('timeStampEndList').innerHTML += ('<li id=end_'+counterTest+'><a href="javascript:onclick(setCurrTimeByValue(' + endTimeStamp + '))">' + endTimeStamp +'</a></li>');
 		counterTest += 1;
 
 		var tempKey = uniqueHash(randomGenerator(32), key);
@@ -180,7 +180,7 @@ function createTimeStamp(){
 		}
 
 		onClickTimeStamp = true;
-		document.getElementById('timeStampStartList').innerHTML += ('<li id=start_'+counterTest+'><a href="javascript:onclick(deleteTimeStampByValue(' + counterTest + '))">x</a><a href="javascript:onclick(setCurrTimeByValue(' + startTimeStamp + '))"> V</a>' + startTimeStamp + '</li>');
+		document.getElementById('timeStampStartList').innerHTML += ('<li id=start_'+counterTest+'><a href="javascript:onclick(deleteTimeStampByValue(' + counterTest + '))">x</a>  <a href="javascript:onclick(setCurrTimeByValue(' + startTimeStamp + '))">'+ startTimeStamp +'</a></li>');
 		
 	}    
 }
