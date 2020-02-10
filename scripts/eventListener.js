@@ -5,7 +5,7 @@ var startTimeStamp = 0;
 var endTimeStamp = 0;
 var reactionTime = 1;
 var volume = 100;
-
+var counterTest = 1;
 
 // function keep running to check if shortcut is ON/OFF
 var checkViewport = setInterval(function() {
@@ -146,9 +146,10 @@ function createTimeStamp(){
 	var currTime = vid.currentTime;
 
 	if (onClickTimeStamp) {
-		endTimeStamp = currTime;
+		endTimeStamp = parseFloat(currTime.toFixed(3));
 		onClickTimeStamp = false;
-		document.getElementById('timeStampEndList').innerHTML += ('<li>'+ endTimeStamp +'</li>');
+		document.getElementById('timeStampEndList').innerHTML += ('<li id=end_'+counterTest+'><a href="javascript:onclick(setCurrTimeByValue(' + endTimeStamp + '))"> V</a>' + endTimeStamp + '</li>');
+		counterTest += 1;
 
 		var tempKey = uniqueHash(randomGenerator(32), key);
 		key.push(tempKey);
@@ -172,15 +173,63 @@ function createTimeStamp(){
 		document.getElementById('downloadLink').appendChild(a);
 	} else {
 		// reduce time stamp start time by reaction time
-		startTimeStamp = currTime - reactionTime;
+		startTimeStamp = parseFloat((currTime - reactionTime).toFixed(3));
 
 		if (startTimeStamp < 0) {
 			startTimeStamp = 0;
 		}
 
 		onClickTimeStamp = true;
-		document.getElementById('timeStampStartList').innerHTML += ('<li>'+ startTimeStamp +'</li>');
+		document.getElementById('timeStampStartList').innerHTML += ('<li id=start_'+counterTest+'><a href="javascript:onclick(deleteTimeStampByValue(' + counterTest + '))">x</a><a href="javascript:onclick(setCurrTimeByValue(' + startTimeStamp + '))"> V</a>' + startTimeStamp + '</li>');
+		
 	}    
+}
+
+
+
+function deleteTimeStampByValue(sec) {
+	var olStartElem = document.getElementById('timeStampStartList');
+	var timeStampNumber = Array.prototype.indexOf.call(olStartElem.childNodes, document.getElementById('start_'+sec));
+
+	var deleteKey = key[timeStampNumber]
+
+	// delete JSON element by key
+	var json = JSON.parse(localStorage["data"]);
+	delete json[deleteKey]
+	localStorage["data"] = JSON.stringify(json);
+
+	delete tempData[deleteKey]
+
+	// remove key array element
+	key.remove(deleteKey)
+
+	// remove <li> from <ol>
+	//var olStartElem = document.getElementById('timeStampStartList');
+	//olStartElem.removeChild(olStartElem.childNodes[timeStampNumber-1])
+
+	//var olEndElem = document.getElementById('timeStampEndList');
+	//olEndElem.removeChild(olEndElem.childNodes[timeStampNumber-1])
+
+
+	// remove <div>
+	var startElem = document.getElementById('start_'+sec);
+	startElem.remove();
+	var endElem = document.getElementById('end_'+sec);
+	endElem.remove();
+
+
+	// recreate the download link
+	document.getElementById("downloadLink").innerHTML = "";
+
+	var blob = new Blob([window.localStorage.getItem("data")], {type: "application/json"});
+	var url  = URL.createObjectURL(blob);
+	var a = document.createElement('a');
+
+	a.download    = "Time_Stamp.json";
+	a.href        = url;
+	a.textContent = "Time_Stamp";
+
+	document.getElementById('downloadLink').appendChild(a);
 }
 
 
@@ -202,11 +251,17 @@ function deleteTimeStamp() {
 		key.remove(deleteKey)
 
 		// remove <li> from <ol>
-		var olStartElem = document.getElementById('timeStampStartList');
-		olStartElem.removeChild(olStartElem.childNodes[timeStampNumber-1])
+		//var olStartElem = document.getElementById('timeStampStartList');
+		//olStartElem.removeChild(olStartElem.childNodes[timeStampNumber-1])
 
-		var olEndElem = document.getElementById('timeStampEndList');
-		olEndElem.removeChild(olEndElem.childNodes[timeStampNumber-1])
+		//var olEndElem = document.getElementById('timeStampEndList');
+		//olEndElem.removeChild(olEndElem.childNodes[timeStampNumber-1])
+
+		// remove <div>
+		var startElem = document.getElementById('start_'+timeStampNumber);
+		startElem.remove();
+		var endElem = document.getElementById('end_'+timeStampNumber);
+		endElem.remove();
 
 		// recreate the download link
 		document.getElementById("downloadLink").innerHTML = "";

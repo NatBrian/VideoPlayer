@@ -29,7 +29,7 @@ function setCurrTimeBySec() {
 } 
 
 function setCurrTimeByValue(seconds) {
-	alert(parseFloat(seconds))
+	// alert(parseFloat(seconds))
 
 	vid.currentTime = parseFloat(seconds);
 

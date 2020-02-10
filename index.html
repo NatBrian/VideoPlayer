@@ -49,8 +49,8 @@
 						<td colspan="2" id="downloadLink"></td>
 					</tr>
 					<tr>
-						<td valign="top"><ol id="timeStampStartList"></ol></td>
-						<td valign="top"><ol id="timeStampEndList" style="list-style-type:none;"></ol></td>
+						<td valign="top"><ol id="timeStampStartList" style="list-style-type: none"></ol></td>
+						<td valign="top"><ol id="timeStampEndList" style="list-style-type: none"></ol></td>
 					</tr>
 				</table>
 
@@ -124,43 +124,39 @@
 				<button onclick="setCurrTimeBySec()" type="button" style="width:200px">Set Time Position (Seconds)</button>
 				<input type="text" id="currInput2" value="0">
 			</div>
-			<div id="deleteTimeContainer">
-				<button onclick="deleteTimeStamp()" type="button" style="width:200px">Delete Time Stamp (#)</button>
-				<input type="text" id="deleteTime" value="0">
+			<div id="pipContainer">
+				<!-- PIP -->
+				<button id="pipButton">Toggle Picture in Picture</button>
+					<script>
+						// Hide button if Picture-in-Picture is not supported.
+						pipButton.hidden = !document.pictureInPictureEnabled;
+
+						pipButton.addEventListener('click', function() {
+						// If there is no element in Picture-in-Picture yet, let's request Picture
+						// In Picture for the video, otherwise leave it.
+						if (!document.pictureInPictureElement) {
+							vid.requestPictureInPicture()
+							.catch(error => {
+						// Video failed to enter Picture-in-Picture mode.
+						});
+						} else {
+							document.exitPictureInPicture()
+							.catch(error => {
+						// Video failed to leave Picture-in-Picture mode.
+						});
+						}
+						});
+					</script>
 			</div>
 		</nav>
 		<script src="scripts/setButtons.js"></script>
 	</div>
 
 
-	<!-- PIP -->
-	<button id="pipButton">Toggle Picture in Picture</button>
-	<script>
-	// Hide button if Picture-in-Picture is not supported.
-	pipButton.hidden = !document.pictureInPictureEnabled;
-
-	pipButton.addEventListener('click', function() {
-	  // If there is no element in Picture-in-Picture yet, let's request Picture
-	  // In Picture for the video, otherwise leave it.
-	  if (!document.pictureInPictureElement) {
-	  	vid.requestPictureInPicture()
-	  	.catch(error => {
-	      // Video failed to enter Picture-in-Picture mode.
-	  });
-	  } else {
-	  	document.exitPictureInPicture()
-	  	.catch(error => {
-	      // Video failed to leave Picture-in-Picture mode.
-	  });
-	  }
-	});
-</script>
-
-
 <!-- shortcut description -->
 <h2> Video Player Guide: </h2>
 <ol> <h3>Basic Functions:</h3>
-	<li>Upload video by clicking "Choose File" button</li>
+	<li>Upload video by clicking "Choose File" button   <b><i>--PLEASE RELOAD PAGE IF YOU WANT TO REUPLOAD VIDEO--</i></b></li>
 	<li>Play/Pause video by clicking "Play / Pause" button</li>
 	<li>Forward/Backward video by clicking ">>> / <<<" button</li>
 	<li>Set Playback speed by moving the silder or clicking the playback buttons</li>
@@ -170,12 +166,13 @@
 <ol> <h3>Extra Features: </h3>
 	<li>Create Time Stamps of the video by clicking "Record Time Stamp" button</li>
 	<li>Download Time Stamps file <i>.JSON</i> by clicking the <u>"Time_Stamp"</u> link next to Download</li>
-	<li>Delete Time Stamps by clicking "Delete Time Stamp (#)", input the number of the Time Stamp (e.g. 1) 
+	<li>Delete Time Stamp by clicking the <b><u> "x" </u></b> button beside the time stamp</li> 
 	<li>Configure reaction time when creating time stamp in "Set Reaction Time",
 		provide input in second. For example, 1 second means <b>start time</b> stamp is
 	reduced by 1 second</li>
 	<li>Set video position in "Set Time Position (HH:MM:SS)",
 	provide input in HH:MM:SS format; or "Set Time Position (Seconds)", provide input in seconds</li>
+	<li>Jump video position by clicking the <b><u> "V" </u></b> button beside the time stamp</li>
 	<li>Picture in Picture setting by clicking "Toggle Picture in Picture" button</li>
 </ol>
 <ol> <h3>Shortcut Keys:</h3>
