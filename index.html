@@ -16,7 +16,7 @@
 
 				<br>
 				<video id="uploadedVideo" onkeydown="return false"></video>
-				<script src="scripts/upload.js"></script>
+				<script src="scripts/uploadVideo.js"></script>
 
 				<nav>
 					<div id="buttons">
@@ -43,6 +43,14 @@
 				<table border: 1px solid black;> 
 					<tr>
 						<th colspan="2">Time Stamps Events</th>
+					</tr>
+					<tr>
+						<td><button type="button" id="rename_JSON_button" onclick="renameJSON()">Rename JSON</button></td>
+						<td><input id="rename_JSON" type="text" value="Time_Stamp"/>
+					</tr>
+					<tr>
+						<td colspan="2"><input id="upload_JSON" type="file" /></td>
+						<script src="scripts/uploadJSON.js"></script>
 					</tr>
 					<tr>
 						<td>Download</td>
@@ -164,9 +172,14 @@
 	<li>Change video position by clicking the progress bar <i>(next to "play" button)</i></li>
 </ol>
 <ol> <h3>Extra Features: </h3>
+	<li>Rename JSON file in Time Stamp Events box</li>
+	<li>Upload JSON file timestamp in Time Stamp Events box</li>
+	<p> JSON Format: <br>
+	{"LCqlmMAynu2TasHULMc9eP6nTODrrEOE":["TimeStamp",0.0,0.0]}</p>
 	<li>Create Time Stamps of the video by clicking "Record Time Stamp" button</li>
 	<li>Download Time Stamps file <i>.JSON</i> by clicking the <u>"Time_Stamp"</u> link next to Download</li>
 	<li>Delete Time Stamp by clicking the <b><u> "x" </u></b> button beside the time stamp</li> 
+	<li>Play Video from start to end Time Stamp by clicking the <b><u> "P" </u></b> button beside the time stamp</li>
 	<li>Configure reaction time when creating time stamp in "Set Reaction Time",
 		provide input in second. For example, 1 second means <b>start time</b> stamp is
 	reduced by 1 second</li>

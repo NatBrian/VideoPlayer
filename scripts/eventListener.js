@@ -6,6 +6,7 @@ var endTimeStamp = 0;
 var reactionTime = 1;
 var volume = 100;
 var counterTest = 1;
+var json_name = "Time_Stamp";
 
 // function keep running to check if shortcut is ON/OFF
 var checkViewport = setInterval(function() {
@@ -148,7 +149,7 @@ function createTimeStamp(){
 	if (onClickTimeStamp) {
 		endTimeStamp = parseFloat(currTime.toFixed(3));
 		onClickTimeStamp = false;
-		document.getElementById('timeStampEndList').innerHTML += ('<li id=end_'+counterTest+'><a href="javascript:onclick(setCurrTimeByValue(' + endTimeStamp + '))">' + endTimeStamp +'</a></li>');
+		document.getElementById('timeStampEndList').innerHTML += ('<li id=end_'+counterTest+'><a href="javascript:onclick(playStopTimeStamp(' + startTimeStamp + ',' + endTimeStamp + '))">P</a>   <a href="javascript:onclick(setCurrTimeByValue(' + endTimeStamp + '))">' + endTimeStamp +'</a></li>');
 		counterTest += 1;
 
 		var tempKey = uniqueHash(randomGenerator(32), key);
@@ -166,9 +167,9 @@ function createTimeStamp(){
 		var url  = URL.createObjectURL(blob);
 		var a = document.createElement('a');
 
-		a.download    = "Time_Stamp.json";
+		a.download    = json_name + ".json";
 		a.href        = url;
-		a.textContent = "Time_Stamp";
+		a.textContent = json_name;
 
 		document.getElementById('downloadLink').appendChild(a);
 	} else {
@@ -180,7 +181,7 @@ function createTimeStamp(){
 		}
 
 		onClickTimeStamp = true;
-		document.getElementById('timeStampStartList').innerHTML += ('<li id=start_'+counterTest+'><a href="javascript:onclick(deleteTimeStampByValue(' + counterTest + '))">x</a>  <a href="javascript:onclick(setCurrTimeByValue(' + startTimeStamp + '))">'+ startTimeStamp +'</a></li>');
+		document.getElementById('timeStampStartList').innerHTML += ('<li id=start_'+counterTest+'><a href="javascript:onclick(deleteTimeStampByValue(' + counterTest + '))">x</a>   <a href="javascript:onclick(setCurrTimeByValue(' + startTimeStamp + '))">'+ startTimeStamp +'</a></li>');
 		
 	}    
 }
@@ -225,9 +226,9 @@ function deleteTimeStampByValue(sec) {
 	var url  = URL.createObjectURL(blob);
 	var a = document.createElement('a');
 
-	a.download    = "Time_Stamp.json";
+	a.download    = json_name + ".json";
 	a.href        = url;
-	a.textContent = "Time_Stamp";
+	a.textContent = json_name;
 
 	document.getElementById('downloadLink').appendChild(a);
 }
@@ -270,9 +271,9 @@ function deleteTimeStamp() {
 		var url  = URL.createObjectURL(blob);
 		var a = document.createElement('a');
 
-		a.download    = "Time_Stamp.json";
+		a.download    = json_name + ".json";
 		a.href        = url;
-		a.textContent = "Time_Stamp";
+		a.textContent = json_name;
 
 		document.getElementById('downloadLink').appendChild(a);
 	}
@@ -286,4 +287,23 @@ Array.prototype.remove = function(data) {
 		this.splice(index ,1);
 	}
 	return this.length;
+}
+
+
+// rename JSON file
+function renameJSON() {
+	json_name = document.getElementById('rename_JSON').value; 
+
+	// create download link for JSON file
+	document.getElementById("downloadLink").innerHTML = "";
+
+	var blob = new Blob([window.localStorage.getItem("data")], {type: "application/json"});
+	var url  = URL.createObjectURL(blob);
+	var a = document.createElement('a');
+
+	a.download    = json_name + ".json";
+	a.href        = url;
+	a.textContent = json_name;
+
+	document.getElementById('downloadLink').appendChild(a);
 }

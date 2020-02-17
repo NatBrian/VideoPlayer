@@ -59,3 +59,24 @@ function backwardVideo(){
 	// update progress bar
 	update()
 }
+
+
+//play and stop according to time stamp
+function playStopTimeStamp(start,end) {
+	vid.currentTime = parseFloat(start);
+	vid.play();
+	playButton.innerHTML='Pause';
+	update();
+	vid.addEventListener("timeupdate", function(){
+		if(vid.currentTime >= parseFloat(end))
+		{
+			vid.pause();	// Stop the Video
+			playButton.innerHTML='Play';
+			update();
+			
+		}	
+		update();
+	});	
+}
+
+
